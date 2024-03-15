@@ -1,11 +1,27 @@
 import { Pressable, Text, View } from "react-native"
 import { globalStyles } from "../../theme/theme"
-import { useNavigation } from "@react-navigation/native"
+import { type NavigationProp, useNavigation, DrawerActions } from "@react-navigation/native"
 import { PrimaryButton } from "../../components/shared/PrimaryButton";
+import type { RootStackParams } from "../../routes/StackNavigator";
+import { useEffect } from "react";
 
 export const HomeScreens = () => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<RootStackParams>>();
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <Pressable
+                    onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}
+                    style={{ marginLeft: 10 }}
+                >
+                    <Text>Menu</Text>
+                </Pressable>
+            )
+        })
+    }, [])
+
 
     return (
         <View style={globalStyles.container}>
@@ -17,7 +33,7 @@ export const HomeScreens = () => {
             </Pressable> */}
 
             <PrimaryButton
-                onPress={() => navigation.navigate('Products' as never)}
+                onPress={() => navigation.navigate('Products')}
                 label="Productos"
             />
 
